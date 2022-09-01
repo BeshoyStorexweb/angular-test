@@ -12,6 +12,12 @@ describe('LoggerService', () => {
   it('add a message when log is called', () => {
     const service = new LoggerService();
     service.log('Hello');
-    expect(service.messages);
+    expect(service.messages.length).toBe(1);
+  });
+
+  it('clear all messages', () => {
+    const service = new LoggerService();
+    service.clear();
+    expect(service.messages.length).toBe(0);
   });
 });
