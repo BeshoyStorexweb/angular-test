@@ -3,14 +3,15 @@ import { TestBed } from '@angular/core/testing';
 import { LoggerService } from './logger.service';
 
 describe('LoggerService', () => {
-  let service: LoggerService;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(LoggerService);
+  it('Should not have any message at starting', () => {
+    const service = new LoggerService();
+    let count = service.messages.length;
+    expect(count).toBe(0);
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+  it('add a message when log is called', () => {
+    const service = new LoggerService();
+    service.log('Hello');
+    expect(service.messages);
   });
 });
