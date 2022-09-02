@@ -96,6 +96,19 @@ describe('PostsComponent', () => {
         expect(post).not.toEqual(posts[1]);
       }
     });
+
+    it('Should call delete method when post component btn is clicked', () => {
+      spyOn(component, 'delete');
+      mockPostService['getPosts'].and.returnValue(of(posts));
+      fixture.detectChanges();
+      const postComponent = fixture.debugElement.queryAll(
+        By.directive(PostComponent)
+      );
+      postComponent[0]
+        .query(By.css('button'))
+        .triggerEventHandler('click', Event);
+      expect(component.delete).toHaveBeenCalledWith(posts[0]);
+    });
   });
 
   it('Should check whether exact post is sending to PostComponent', () => {
@@ -111,5 +124,18 @@ describe('PostsComponent', () => {
 
       expect(postComponentInstance.post).toEqual(posts[i]);
     }
+  });
+
+  it('should call event emitter when delete event is emitted', () => {
+    spyOn(component, 'delete');
+    mockPostService.getPosts.and.returnValue(of(posts));
+    fixture.detectChanges();
+    let postComponent = fixture.debugElement.queryAll(
+      By.directive(PostComponent)
+    );
+    (postComponent[0].componentInstance as PostComponent).delete.emit(
+      undefined
+    );
+    expect(component.delete).toHaveBeenCalledOnceWith(posts[0]);
   });
 });

@@ -35,12 +35,25 @@ describe('PostService HttpTesting', () => {
     httpTestingCtrl = TestBed.inject(HttpTestingController);
   });
   describe('getPosts', () => {
-    it('should get posts when getPosts() is called', () => {
-      postsService.getPosts().subscribe((d) => expect(d).toEqual(posts));
+    it('should get posts when getPosts() is called', (done: DoneFn) => {
+      postsService.getPosts().subscribe((d) => {
+        expect(d).toEqual(posts);
+        done();
+      });
       const request = httpTestingCtrl.expectOne(
         'https://jsonplaceholder.typicode.com/posts'
       );
       request.flush(posts);
     });
+  });
+
+  it('should getPost() return single post', () => {
+    postsService.getPost(1).subscribe();
+    // postsService.getPost(2).subscribe();
+
+    const request = httpTestingCtrl.expectOne(
+      'https://jsonplaceholder.typicode.com/post/1'
+    );
+    // httpTestingCtrl.verify();
   });
 });
